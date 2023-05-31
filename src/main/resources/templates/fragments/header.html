@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" />
+<link th:rel="stylesheet" th:href="@{css/style.css}" />
+<title>Pizzeria</title>
+</head>
+<body>
+	<header th:fragment="header" class="container mt-2 mb-4">
+		<div class="row align-items-center justify-content-between">
+			<div class="col-md-6">
+				<h1 class="text-start">La mia Pizzeria</h1>
+			</div>
+			<div class="col-md-6 text-end">
+				<form class="d-flex justify-content-end gap-2" th:action="@{/pizze}"
+					method="post">
+					<input class="form-control w-50 rounded" type="text" name="name"
+						th:value="${name}">
+					<button class="btn btn-outline-primary" type="submit">Cerca</button>
+				</form>
+			</div>
+		</div>
+	</header>
+	<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
