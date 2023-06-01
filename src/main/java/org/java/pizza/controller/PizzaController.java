@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.pizza.pojo.Pizza;
+import org.java.pizza.pojo.SpecialOffer;
 import org.java.pizza.service.PizzaService;
+import org.java.pizza.service.SpecialOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,18 +24,24 @@ import jakarta.validation.Valid;
 public class PizzaController {
 	@Autowired
 	private PizzaService pizzaService;
+	@Autowired
+	SpecialOfferService specialOfferService;
 	
 	@GetMapping("/")
 	public String getIndex(Model model) {
 		List<Pizza> pizze = pizzaService.findAll();
+		List<SpecialOffer> specialOffers = specialOfferService.findAll();
+		model.addAttribute("specialOffers", specialOffers);
 		model.addAttribute("pizze", pizze);
 		return "index";
 	}
 //	SHOW
-	@GetMapping("/pizza/{id}")
+	@GetMapping("/pizze/{id}")
 	public String show(Model model, @PathVariable("id") Integer id) {
 		Optional<Pizza> optionalPizza = pizzaService.findById(id);
+		List<SpecialOffer> specialOffers = specialOfferService.findAll();
 		Pizza pizza = optionalPizza.get();
+		model.addAttribute("specialOffers", specialOffers);
 		model.addAttribute("pizza", pizza);
 		return "pizza";
 	}
@@ -65,8 +73,6 @@ public class PizzaController {
 			model.addAttribute("errors", bindingResult);
 			return "create";
 		}
-		
-		
 		pizzaService.save(pizza);
 		return "redirect:/";
 	}
@@ -108,5 +114,22 @@ public class PizzaController {
 		return "redirect:/";
 	}
 	
-
+	@GetMapping("/pizze/{id}/create")
+	public String getSpecialOfferCreate(Model model, @PathVariable Integer id) {
+		
+		Pizza pizza = pizzaService.findById(id).get();
+		model.addAttribute("specialOffer", new SpecialOffer());
+		model.addAttribute("pizza", pizza);
+		
+		return "spo-create";
+	}
+	
+	@PostMapping("/pizze/{id}/create")
+	public String storeSpecialOffer(
+			Model model,
+			@ModelAttribute SpecialOffer specialOffer) {
+		
+		specialOfferService.save(specialOffer);
+		return "redirect:/";
+	}
 }

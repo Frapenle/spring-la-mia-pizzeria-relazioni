@@ -1,11 +1,15 @@
 package org.java.pizza;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.java.pizza.pojo.Pizza;
+import org.java.pizza.pojo.SpecialOffer;
 import org.java.pizza.service.PizzaService;
+import org.java.pizza.service.SpecialOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +24,8 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner{
 	
 	@Autowired
 	private PizzaService pizzaService;
+	@Autowired
+	private SpecialOfferService specialOfferService;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -36,6 +42,16 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner{
 			pizzaService.save(piz);
 		}
 		
+		SpecialOffer specialOffer = new SpecialOffer(LocalDate.of(2023, 01, 01), LocalDate.of(2023, 01, 10), "Promo 10", 10, pizza.get(0));
+		SpecialOffer specialOffer2 = new SpecialOffer(LocalDate.of(2023, 01, 01), LocalDate.of(2023, 01, 10), "Promo 20", 20, pizza.get(0));
+		specialOfferService.save(specialOffer);
+		specialOfferService.save(specialOffer2);
+		
+		Optional<Pizza> firstPizzaOpt = pizzaService.findByIdWithSpecialOffer(1);
+		Pizza firstPizza = firstPizzaOpt.get();
+		
+		System.out.println("Pizza:\n" + firstPizza);
+		System.out.println("Pizza offerta:\n" + firstPizza.getSpecialOffers());
 	}
 
 }

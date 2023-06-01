@@ -1,6 +1,7 @@
 package org.java.pizza.pojo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
 
@@ -9,8 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -37,6 +38,10 @@ public class Pizza {
 	@PositiveOrZero(message = "Il numero deve essere positivo.")
 	@Max(value = 1000, message = "Non è possibile inserire un numero maggiore di 1000.")
 	private BigDecimal price;
+
+	//	relationship
+	@OneToMany(mappedBy = "pizza")
+	private List<SpecialOffer> specialOffers;
 	
 	public Pizza() {};
 	
@@ -78,13 +83,22 @@ public class Pizza {
 		this.price = price;
 	}
 	
+	public List<SpecialOffer> getSpecialOffers(){
+		return specialOffers;
+	}
+	
+	public void setSpecialOffers(List<SpecialOffer> specialOffers) {
+		this.specialOffers = specialOffers;
+	}
+
 	@Override
 	public String toString() {
 		return "Id: " + getId()
 				+ "\nName: " + getName()
 				+ "\nDescription: " + getDescription()
-				+ "\n:Price " + getPrice()
-				+ "\nImage: " + getImageUrl();
+				+ "\nPrice " + getPrice()
+				+ "\nImage: " + getImageUrl()
+				+ "\n\n=========================\n";
 	}
 
 }
