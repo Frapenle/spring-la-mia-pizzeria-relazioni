@@ -18,13 +18,12 @@
 								th:text="${pizza.id + ' - ' + pizza.name}">
 							</a>
 							<small class="">[[${ pizza.description}]]</small>
-							<span class="text-end" th:text=" | ${pizza.price}&euro;|" ></span>
-							<div class="d-inline" th:each="spo : ${specialOffers}">				
-								<span th:if="${spo.pizza.id == pizza.id}" class="text-success fw-bold" th:text="| ${spo.discount}&euro;|"></span>
-							</div>
+							<span th:if="${pizza.specialOffers.size() > 0}" class="text-end text-decoration-line-through td-thickness" th:text=" | ${pizza.price}&euro;|" ></span>
+							<span th:unless="${pizza.specialOffers.size() > 0}" class="text-end" th:text=" | ${pizza.price}&euro;|" ></span>
+							<span class="text-success fw-bold" th:if="${pizza.getDiscountedPrice(specialOffers) != pizza.price}" th:text="${pizza.getDiscountedPrice(specialOffers)} + '€'"></span>
 						</div>
 						<div>
-							<a th:if="${pizza.specialOffers.size() > 0}" th:href="@{'/offer/edit/' + ${pizza.id}}" class="btn btn-light">Modifica offerta</a>
+							<a th:if="${pizza.specialOffers.size() > 0}" th:href="@{'/pizze/' + ${pizza.id}}" class="btn btn-light">Modifica offerta</a>
 							<a th:href="@{'/pizze/' + ${pizza.id} + '/create'}" class="btn btn-danger">Aggiungi offerta</a>
 							<a th:href="@{'/pizze/update/' + ${pizza.id}}" class="btn btn-warning">Modifica</a>
 							<a th:href="@{'/pizze/delete/' + ${pizza.id}}" class="btn btn-dark">Elimina</a>

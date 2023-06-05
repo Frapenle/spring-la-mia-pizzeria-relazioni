@@ -1,5 +1,6 @@
 package org.java.pizza.pojo;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 @Entity
 public class SpecialOffer {
 	@Id
@@ -65,22 +67,39 @@ public class SpecialOffer {
 		this.discount = discount;
 	}
 	
-	
 	public Pizza getPizza() {
 		return pizza;
 	}
 	public void setPizza(Pizza pizza) {
 		this.pizza = pizza;
 	}
+	
+	public BigDecimal getDiscountedPrice() {
+	    BigDecimal price = pizza.getPrice();
+	    BigDecimal discountedPrice = price;
+	    BigDecimal totalDiscount = BigDecimal.ZERO;
+
+	    for (SpecialOffer offer : pizza.getSpecialOffers()) {
+	        totalDiscount = totalDiscount.add(BigDecimal.valueOf(offer.getDiscount()));
+	    }
+	    
+	    if (totalDiscount.compareTo(BigDecimal.valueOf(100)) > 0) {
+	        return BigDecimal.ZERO;
+	    }
+	    for (SpecialOffer offer : pizza.getSpecialOffers()) {
+	        BigDecimal discountAmount = price.multiply(BigDecimal.valueOf(offer.getDiscount())).divide(BigDecimal.valueOf(100));
+	        discountedPrice = discountedPrice.subtract(discountAmount);
+	    }
+	    return discountedPrice.setScale(2);
+	}
 
 	@Override
 	public String toString() {
 		
-		return "Id: " + getId()
+		return "\nId: " + getId()
 			+ "\nData inizio: " + getStartDate()
 			+ "\nData fine: " + getEndDate()
-			+ "\nSconto: " + getDiscount();
+			+ "\nSconto: " + getDiscount() + "%"
+			+ "\nPrezzo scontato: " + getDiscountedPrice() + "€";
 	}
-
-
 }

@@ -90,6 +90,14 @@ public class Pizza {
 	public void setSpecialOffers(List<SpecialOffer> specialOffers) {
 		this.specialOffers = specialOffers;
 	}
+	public BigDecimal getDiscountedPrice(List<SpecialOffer> specialOffers) {
+	    for (SpecialOffer specialOffer : specialOffers) {
+	        if (specialOffer.getPizza().getId() == getId()) {
+	            return specialOffer.getDiscountedPrice();
+	        }
+	    }
+	    return this.getPrice();
+	}
 
 	@Override
 	public String toString() {
@@ -100,5 +108,4 @@ public class Pizza {
 				+ "\nImage: " + getImageUrl()
 				+ "\n\n=========================\n";
 	}
-
 }

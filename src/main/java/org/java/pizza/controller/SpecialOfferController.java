@@ -56,7 +56,7 @@ public class SpecialOfferController {
 	@PostMapping("/offer/edit/{id}")
 	public String update(Model model, @PathVariable("id") Integer id, @ModelAttribute SpecialOffer specialOffer) {
 		specialOfferService.save(specialOffer);
-		return "redirect:/";
+		return "redirect:/pizze/" + specialOffer.getPizza().getId();
 	}
 
 }
