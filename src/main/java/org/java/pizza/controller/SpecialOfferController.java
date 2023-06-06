@@ -35,7 +35,7 @@ public class SpecialOfferController {
 		List<Pizza> pizza = pizzaService.findAll();
 		model.addAttribute("specialOffer", new SpecialOffer());
 		model.addAttribute("pizza", pizza);
-		return "spo-create";
+		return "specialOffers/spo-create";
 	}
 	@PostMapping("/offer/create")
 	public String storeSpecialOffer(
@@ -51,7 +51,7 @@ public class SpecialOfferController {
 		Optional<SpecialOffer> specialOfferOpt = specialOfferService.findById(id);
 		SpecialOffer specialOffer = specialOfferOpt.get();
 		model.addAttribute("specialOffer", specialOffer);
-		return "spo-update";
+		return "specialOffers/spo-update";
 	}
 	@PostMapping("/offer/edit/{id}")
 	public String update(Model model, @PathVariable("id") Integer id, @ModelAttribute SpecialOffer specialOffer) {

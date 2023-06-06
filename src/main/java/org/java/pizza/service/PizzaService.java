@@ -36,10 +36,8 @@ public class PizzaService {
 	
 	@Transactional
 	public Optional<Pizza> findByIdWithSpecialOffer(Integer id) {
-		
 		Optional<Pizza> pizzaOpt = pizzaRepository.findById(id);
 		Hibernate.initialize(pizzaOpt.get().getSpecialOffers());
-		
 		return pizzaOpt;
 	}
 }

@@ -6,8 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.pizza.pojo.Ingredient;
 import org.java.pizza.pojo.Pizza;
 import org.java.pizza.pojo.SpecialOffer;
+import org.java.pizza.service.IngredientService;
 import org.java.pizza.service.PizzaService;
 import org.java.pizza.service.SpecialOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,20 @@ public class SpringLaMiaPizzeriaCrudApplication implements CommandLineRunner{
 	private PizzaService pizzaService;
 	@Autowired
 	private SpecialOfferService specialOfferService;
-
+	@Autowired
+	private IngredientService ingredientService;
+	
 	@Override
 	public void run(String... args) throws Exception {
+		Ingredient farina00 = new Ingredient("Farina 00");
+		Ingredient mozzarella = new Ingredient("mozzarella");
+		Ingredient pomodoro = new Ingredient("pomodoro");
+		Ingredient acciughe = new Ingredient("acciughe");
+		ingredientService.save(acciughe);
+		ingredientService.save(pomodoro);
+		ingredientService.save(mozzarella);
+		ingredientService.save(farina00);
+		
 
 		List<Pizza> pizza = Arrays.asList(
 				new Pizza("Margherita", "Pomodoro e mozzarella", "https://primochef.it/wp-content/uploads/2019/08/SH_pizza_fatta_in_casa-640x350.jpg.webp", new BigDecimal("8.00")),

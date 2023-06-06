@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.java.pizza.pojo.Pizza;
 import org.java.pizza.pojo.SpecialOffer;
+import org.java.pizza.service.IngredientService;
 import org.java.pizza.service.PizzaService;
 import org.java.pizza.service.SpecialOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class PizzaController {
 	private PizzaService pizzaService;
 	@Autowired
 	SpecialOfferService specialOfferService;
+	@Autowired
+	IngredientService ingredientService;
 	
 	@GetMapping("/")
 	public String getIndex(Model model) {
@@ -43,7 +46,7 @@ public class PizzaController {
 		Pizza pizza = optionalPizza.get();
 		model.addAttribute("specialOffers", specialOffers);
 		model.addAttribute("pizza", pizza);
-		return "pizza";
+		return "pizza/pizza";
 	}
 	
 	@PostMapping("/pizze")
@@ -59,7 +62,7 @@ public class PizzaController {
 	@GetMapping("/pizze/create")
 	public String createPizza(Model model) {
 		model.addAttribute("pizza", new Pizza());
-		return "create";
+		return "pizza/create";
 	}
 	
 	@PostMapping("/pizze/create")
@@ -94,7 +97,7 @@ public class PizzaController {
 		Optional<Pizza> optionalPizza = pizzaService.findById(id);
 		Pizza pizza = optionalPizza.get();
 		model.addAttribute("pizza", pizza);
-		return "update";
+		return "pizza/update";
 	}
 	
 	@PostMapping("/pizze/update/{id}")
@@ -116,19 +119,16 @@ public class PizzaController {
 	
 	@GetMapping("/pizze/{id}/create")
 	public String getSpecialOfferCreate(Model model, @PathVariable Integer id) {
-		
 		Pizza pizza = pizzaService.findById(id).get();
 		model.addAttribute("specialOffer", new SpecialOffer());
 		model.addAttribute("pizza", pizza);
-		
-		return "spo-create";
+		return "specialOffers/spo-create";
 	}
 	
 	@PostMapping("/pizze/{id}/create")
 	public String storeSpecialOffer(
 			Model model,
 			@ModelAttribute SpecialOffer specialOffer) {
-		
 		specialOfferService.save(specialOffer);
 		return "redirect:/";
 	}

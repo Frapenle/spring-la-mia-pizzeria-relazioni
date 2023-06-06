@@ -15,6 +15,7 @@ public class SpecialOffer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private String name;

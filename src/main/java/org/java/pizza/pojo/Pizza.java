@@ -1,6 +1,7 @@
 package org.java.pizza.pojo;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.validator.constraints.URL;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -43,15 +45,20 @@ public class Pizza {
 	@OneToMany(mappedBy = "pizza")
 	private List<SpecialOffer> specialOffers;
 	
+	@ManyToMany
+	private List<Ingredient> ingredients;
+	
 	public Pizza() {};
 	
-	public Pizza(String name, String description, String imageUrl, BigDecimal price) {
+	public Pizza(String name, String description, String imageUrl, BigDecimal price, Ingredient... ingredients) {
 		setName(name);
 		setDescription(description);
 		setImageUrl(imageUrl);
 		setPrice(price);
+		setIngredients(ingredients);
+		
 	}
-	
+
 	public Integer getId() {
 		return Id;
 	}
@@ -82,7 +89,23 @@ public class Pizza {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
+//	INGREDIENT
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+	public void setIngredients(Ingredient[] ingredients) {
+		setIngredients(Arrays.asList(ingredients));
+	}
+	public void addIngredient(Ingredient ingredient) {
+		getIngredients().add(ingredient);
+	}
+	public void removeIngredient(Ingredient ingredient) {
+		getIngredients().remove(ingredient);
+	}
+//	special offer
 	public List<SpecialOffer> getSpecialOffers(){
 		return specialOffers;
 	}
