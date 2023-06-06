@@ -3,6 +3,7 @@ package org.java.pizza.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.pizza.pojo.Ingredient;
 import org.java.pizza.pojo.Pizza;
 import org.java.pizza.pojo.SpecialOffer;
 import org.java.pizza.service.IngredientService;
@@ -61,7 +62,9 @@ public class PizzaController {
 //	CREATE
 	@GetMapping("/pizze/create")
 	public String createPizza(Model model) {
+		List<Ingredient> ingredients = ingredientService.findAll();
 		model.addAttribute("pizza", new Pizza());
+		model.addAttribute("ingredients", ingredients);
 		return "pizza/create";
 	}
 	
@@ -72,6 +75,7 @@ public class PizzaController {
 		if(bindingResult.hasErrors()) {
 			for (ObjectError err : bindingResult.getAllErrors())
 				System.err.println("Error: " + err.getDefaultMessage());
+			pizza.setNewPizza(true);
 			model.addAttribute("pizza", pizza);
 			model.addAttribute("errors", bindingResult);
 			return "create";
@@ -94,8 +98,10 @@ public class PizzaController {
 	@GetMapping("/pizze/update/{id}")
 	public String edit(@PathVariable("id") Integer id,
 						Model model) {
+		List<Ingredient> ingredients = ingredientService.findAll();
 		Optional<Pizza> optionalPizza = pizzaService.findById(id);
 		Pizza pizza = optionalPizza.get();
+		model.addAttribute("ingredients", ingredients);
 		model.addAttribute("pizza", pizza);
 		return "pizza/update";
 	}
@@ -109,6 +115,7 @@ public class PizzaController {
 		if(bindingResult.hasErrors()) {
 			for (ObjectError err : bindingResult.getAllErrors())
 				System.err.println("Error: " + err.getDefaultMessage());
+			
 			model.addAttribute("pizza", pizza);
 			model.addAttribute("errors", bindingResult);
 			return "update";

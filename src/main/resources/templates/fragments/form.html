@@ -42,8 +42,25 @@
 						<small class="text-danger" th:if="${errors != null && errors.hasFieldErrors('imageUrl')}">
 							[[ ${errors.getFieldError('imageUrl').defaultMessage}]]
 						</small>
-					</div>				
-
+					</div>
+						
+					<div class="d-flex gap-1" th:unless="${pizza.isNewPizza}">
+					    <div class="mb-3 me-3" th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+					        <input th:id="${'ingredient-' + ingredient.id}" th:value="*{id}"
+					            type="checkbox" name="ingredients">
+					        <label th:for="${'ingredient-' + ingredient.id}">[[*{name}]]</label>
+					    </div>
+					</div>
+					
+					<div class="d-flex gap-1" th:if="${pizza.isNewPizza}">
+					    <div class="mb-3 me-3" th:each="ingredient : ${ingredients}" th:object="${ingredient}">
+					        <input th:id="${'ingredient-' + ingredient.id}" th:value="*{id}"
+					        		th:checked="${pizza.ingredients.contains(ingredient)}"
+					        		type="checkbox" name="ingredients">
+					        <label th:for="${'ingredient-' + ingredient.id}">[[*{name}]]</label>
+					    </div>
+					</div>
+					
 				</div>
 			</div>
 		</main>

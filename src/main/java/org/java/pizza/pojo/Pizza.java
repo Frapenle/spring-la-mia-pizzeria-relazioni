@@ -40,6 +40,8 @@ public class Pizza {
 	@PositiveOrZero(message = "Il numero deve essere positivo.")
 	@Max(value = 1000, message = "Non è possibile inserire un numero maggiore di 1000.")
 	private BigDecimal price;
+	
+	private boolean isNewPizza;
 
 	//	relationship
 	@OneToMany(mappedBy = "pizza")
@@ -56,7 +58,13 @@ public class Pizza {
 		setImageUrl(imageUrl);
 		setPrice(price);
 		setIngredients(ingredients);
-		
+	}
+
+	public boolean isNewPizza() {
+		return isNewPizza;
+	}
+	public void setNewPizza(boolean isNewPizza) {
+		this.isNewPizza = isNewPizza;
 	}
 
 	public Integer getId() {
@@ -122,6 +130,17 @@ public class Pizza {
 	    return this.getPrice();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Pizza)) return false;
+		Pizza pizzaObj = (Pizza) obj;
+		return getId() == pizzaObj.getId();
+	}
+	@Override
+	public int hashCode() {
+		return getId();
+	}
+	
 	@Override
 	public String toString() {
 		return "Id: " + getId()

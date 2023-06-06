@@ -71,6 +71,17 @@ public class Ingredient {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Ingredient)) return false;
+		Ingredient ingredientObj = (Ingredient) obj;
+		return getId() == ingredientObj.getId();
+	}
+	@Override
+	public int hashCode() {
+		return getId();
+	}
+	
+	@Override
 	public String toString() {
 		 return "Id: " + getId()
 			+ "\nIngrediente: " + getName()
